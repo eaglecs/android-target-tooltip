@@ -608,8 +608,11 @@ class Tooltip private constructor(private val context: Context, builder: Builder
         }
 
         val property = if (direction == 2) "translationY" else "translationX"
-        mAnimator =
-                ObjectAnimator.ofFloat(mTextView, property, -endValue.toFloat(), endValue.toFloat())
+        mAnimator = if (mIsCustomView){
+            ObjectAnimator.ofFloat(mContentView, property, -endValue.toFloat(), endValue.toFloat())
+        } else {
+            ObjectAnimator.ofFloat(mTextView, property, -endValue.toFloat(), endValue.toFloat())
+        }
         mAnimator!!.run {
             setDuration(duration)
             interpolator = AccelerateDecelerateInterpolator()
